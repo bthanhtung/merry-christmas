@@ -1,0 +1,44 @@
+/* Style general */
+body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #1e3b70, #29578a, #3a75b6, #a0d3e8);
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Canvas for the sky and snowflakes */
+#skyCanvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;/* Snowflakes and Santa Claus are above the city */
+}
+
+/* City section */
+#christmasScene {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%; /* The city occupies 50% of the height */
+    z-index: 1; /* The city is in the background */
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+/* City Banner */
+#cityBanner {
+    width: 100%;
+    height: 100%;
+    background: url('https://i.ibb.co/0p0Wzrk/DALL-E-2024-12-02-23-27.png') no-repeat center center;
+    background-size: cover; /* Image covers full width and height */
+    background-position: bottom; /* Bottom aligned to give a natural effect */
+}
