@@ -22,9 +22,8 @@ const messages = [
     "🎁 Happy Holidays!",
     "❄️ Stay Warm and Cozy!",
     "✨ Wishing You Joy and Peace!",
-    "🎅 Santa is Coming to Town!",
-    "🌟 Shine Bright this Season!",
-    "🎊 Cheers to a Magical Season!"
+    "🎅 I love you so much baeee!",
+    "🎊 Moahzzz"
 ];
 
 // Khởi tạo canvas và các phần tử
