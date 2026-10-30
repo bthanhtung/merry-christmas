@@ -1,44 +1,74 @@
-/* Style general */
+:root {
+  --night0: #060b1d; --night1: #0d1a3a; --ink: #f6f3ea; --muted: rgba(226, 232, 255, .66);
+  --gold: #f6d58a; --gold2: #fff3cf; --red: #e24a4a; --line: rgba(226, 232, 255, .16); --glass: rgba(226, 232, 255, .07);
+  --serif: "Fraunces", Georgia, serif; --sans: "Inter", system-ui, sans-serif; --ease: cubic-bezier(.22, 1, .36, 1);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 body {
-    margin: 0;
-    overflow: hidden;
-    background: linear-gradient(to bottom, #1e3b70, #29578a, #3a75b6, #a0d3e8);
-    position: relative;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+  margin: 0; min-height: 100dvh; overflow: hidden; color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased;
+  background: radial-gradient(1200px 800px at 50% 0%, #1c2f63 0%, transparent 60%), linear-gradient(180deg, var(--night1), var(--night0) 70%);
+  display: flex; flex-direction: column;
 }
+svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
-/* Canvas for the sky and snowflakes */
-#skyCanvas {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;/* Snowflakes and Santa Claus are above the city */
-}
+.aurora { position: fixed; inset: -10% -20% auto; height: 70vh; pointer-events: none; opacity: .5; filter: blur(50px);
+  background: conic-gradient(from 200deg at 50% 60%, transparent, rgba(80, 220, 180, .35), rgba(120, 140, 255, .3), transparent 40%);
+  animation: aurora 18s ease-in-out infinite alternate; }
+@keyframes aurora { to { transform: translateX(8%) skewX(-8deg) scaleY(1.1); opacity: .35; } }
+#sky { position: fixed; inset: 0; width: 100%; height: 100%; }
+.hills { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; height: 26vh; min-height: 160px; pointer-events: none; z-index: 2; }
+.win { fill: #ffcf6b; filter: drop-shadow(0 0 6px #ffb84a); animation: flicker 4s ease-in-out infinite; }
+.win.w2 { animation-delay: -1.3s; } .win.w3 { animation-delay: -2.6s; }
+@keyframes flicker { 50% { opacity: .75; } }
 
-/* City section */
-#christmasScene {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%; /* The city occupies 50% of the height */
-    z-index: 1; /* The city is in the background */
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-}
+/* lời chúc nằm phía trên cây */
+.card { position: relative; z-index: 3; text-align: center; padding: max(36px, env(safe-area-inset-top)) 20px 0; pointer-events: none; }
+.card .actions, .card button { pointer-events: auto; }
+.dear { margin: 0 0 6px; font: italic 400 clamp(18px, 2vw, 24px) var(--serif); color: var(--gold2); opacity: 0; animation: rise 1s var(--ease) .2s forwards; }
+.title { margin: 0; font: 400 clamp(46px, 8.5vw, 116px)/.95 var(--serif); letter-spacing: -.02em; font-variation-settings: "opsz" 144; }
+.title span { display: inline-block; opacity: 0; animation: rise 1.2s var(--ease) forwards; }
+.title .t1 { font-style: italic; font-weight: 300; color: var(--gold2); animation-delay: .35s; }
+.title .t2 { background: linear-gradient(180deg, #fff, #dfe6ff 60%, #a9b8e6); -webkit-background-clip: text; background-clip: text; color: transparent; animation-delay: .55s; }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+.wish { min-height: 1.5em; margin: 14px 0 0; font: italic 400 clamp(16px, 1.8vw, 21px)/1.4 var(--serif); color: var(--muted); transition: opacity .6s, transform .6s var(--ease); }
+.wish.swap { opacity: 0; transform: translateY(6px); }
+.chip { display: inline-flex; gap: 8px; align-items: center; margin: 16px 0 0; padding: 7px 14px; border-radius: 999px; font-size: 13px; font-weight: 500;
+  background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--ink); }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: blink 1.6s infinite; }
+@keyframes blink { 50% { opacity: .3; } }
+.actions { display: flex; gap: 12px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 9px; height: 46px; padding: 0 20px; border-radius: 14px; font-weight: 600; font-size: 15px;
+  transition: transform .25s var(--ease), box-shadow .25s, background .25s; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: scale(.97); }
+.btn.primary { border: 0; color: #2a1c05; background: linear-gradient(180deg, var(--gold2), var(--gold)); box-shadow: 0 10px 30px rgba(246, 213, 138, .28); }
+.btn.ghost { border: 1px solid var(--line); background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.from { margin: 14px 0 0; font: italic 400 16px var(--serif); color: var(--gold2); }
 
-/* City Banner */
-#cityBanner {
-    width: 100%;
-    height: 100%;
-    background: url('https://i.ibb.co/0p0Wzrk/DALL-E-2024-12-02-23-27.png') no-repeat center center;
-    background-size: cover; /* Image covers full width and height */
-    background-position: bottom; /* Bottom aligned to give a natural effect */
-}
+.foot { position: fixed; z-index: 4; left: 0; right: 0; bottom: 0; text-align: center; padding: 0 0 max(14px, env(safe-area-inset-bottom)); font-size: 12px; color: #4a5a85; }
+.foot a { color: #26365f; text-decoration: none; font-weight: 600; }
+
+/* hộp tạo thiệp */
+dialog { border: 1px solid var(--line); border-radius: 22px; padding: 0; width: min(420px, 92vw); color: var(--ink);
+  background: rgba(13, 22, 50, .86); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 30px 80px rgba(0, 0, 0, .5); }
+dialog[open] { animation: pop .4s var(--ease); }
+dialog::backdrop { background: rgba(3, 6, 18, .55); backdrop-filter: blur(3px); }
+@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.97); } }
+dialog form { padding: 26px; display: grid; gap: 14px; }
+dialog h2 { margin: 0; font: 500 26px var(--serif); }
+dialog .sub { margin: -8px 0 4px; color: var(--muted); font-size: 14px; }
+dialog label { display: grid; gap: 6px; font-size: 13px; font-weight: 500; color: var(--muted); }
+dialog .opt { font-weight: 400; opacity: .7; }
+dialog input { height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line); background: rgba(226, 232, 255, .06); color: var(--ink); font: 15px var(--sans); }
+dialog input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(246, 213, 138, .2); }
+dialog .row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+
+.toast { position: fixed; left: 50%; top: 24px; z-index: 9; transform: translate(-50%, -16px); opacity: 0; pointer-events: none;
+  padding: 10px 16px; border-radius: 12px; background: var(--gold2); color: #2a1c05; font-weight: 600; font-size: 14px; transition: .3s var(--ease); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 560px) { .btn { height: 44px; padding: 0 16px; font-size: 14px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; } .title span, .dear { opacity: 1; } }
